@@ -88,10 +88,17 @@ const resolvers = {
         const pageNum = page || 0;
         const pageSize = size || 10;
   
-        // Mongoose의 find()와 조건 추가
-        return Log.find(query)
-          .skip(pageNum * pageSize)
-          .limit(pageSize);
+        // MongoDB에서 데이터를 가져와서 변환
+        const logs = await Log.find(query)
+            .skip(pageNum * pageSize)
+            .limit(pageSize);
+
+    // ISO 8601 형식으로 변환
+        return logs.map(log => ({
+            id: log._id.toString(),
+            ...log.toObject(),
+            timestamp: new Date(log.timestamp).toISOString(), // ISO 형식 변환
+        }));
       },
     },
   };
