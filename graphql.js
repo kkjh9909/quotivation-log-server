@@ -53,13 +53,10 @@ const typeDefs = gql`
 const resolvers = {
     Query: {
       searchLogs: async (_, { filter, range, page, size }) => {
-        // MongoDB 쿼리 조건 객체를 생성
         const query = {};
   
-        // filter에 따라서 조건 추가
-        if (filter.query) {
-          query["parameters.query"] = filter.query;  // parameters.query로 접근
-        }
+        if (filter.query)
+          query["parameters.query"] = filter.level;
   
         if (filter.ip) {
           query["ip"] = filter.ip;
@@ -76,12 +73,16 @@ const resolvers = {
         // range에 따른 날짜 필터링
         if (range) {
           const now = new Date();
-          if (range === "1h") {
+          if (range === "1h")
             query["timestamp"] = { $gte: new Date(now.getTime() - 60 * 60 * 1000) }; // 최근 1시간
-          } else if (range === "1m") {
+          else if(range === "6h")
+            query["timestamp"] = { $gte: new Date(now.getTime() - 6 * 60 * 60 * 1000) }; // 최근 6시간
+          else if(range === "24h")
+            query["timestamp"] = { $gte: new Date(now.getTime() - 24 * 60 * 60 * 1000) }; // 최근 24시간
+          else if(range === "7d")
+            query["timestamp"] = { $gte: new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000) }; // 최근 7일
+          else if(range === "30d")
             query["timestamp"] = { $gte: new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000) }; // 최근 30일
-          }
-          // 다른 범위 추가 가능
         }
   
         // 페이지네이션 처리
