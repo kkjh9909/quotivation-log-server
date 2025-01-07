@@ -1,10 +1,12 @@
 const express = require('express');
+const { ApolloServer } = require('apollo-server-express');
 const mongoose = require('mongoose');
-const server = require('./graphql'); // Apollo Server 설정이 있는 파일
-const Log = require('./models/Log');
+const schema = require('./graphql/index');
+const dotenv = require('dotenv')
 
-// MongoDB 연결 설정
-const MONGO_URI = 'mongodb+srv://kkjh990957:BOZCU7ZO2LvHLHv9@cluster.yysu2.mongodb.net/app_log?retryWrites=true&w=majority&appName=Cluster'; // MongoDB 주소
+dotenv.config();
+
+const MONGO_URI = process.env.MONGO_URI; // MongoDB 주소
 
 mongoose
   .connect(MONGO_URI)
@@ -13,6 +15,8 @@ mongoose
 
 // Express 앱 초기화
 const app = express();
+
+const server = new ApolloServer({ schema });
 
 // Apollo Server를 Express에 연결
 server.start().then(() => {
