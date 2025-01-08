@@ -1,4 +1,4 @@
-# <img width="50" alt="quotivation_logo (1)" src="https://github.com/user-attachments/assets/d6327e1e-b277-4313-9152-16fad4be916d"> Quotivation
+# <img width="50" alt="quotivation_logo (1)" src="https://github.com/user-attachments/assets/d6327e1e-b277-4313-9152-16fad4be916d"> Quotivation-log-server
  
 Log 저장 MongoDB 서비스  
 
@@ -33,7 +33,7 @@ MONGO_URI={MONGO_SERVER_URL}
 
 ### 4. 빌드 및 실행
 * 로컬 환경에서 실행:
-```javascript
+```bash
 node server.js
 ```
 
