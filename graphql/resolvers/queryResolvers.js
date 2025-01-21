@@ -44,6 +44,7 @@ const queryResolvers = {
 
             // MongoDB에서 데이터를 가져와서 변환
             const logs = await Log.find(query)
+                .sort({ timestamp: -1})
                 .skip(pageNum * pageSize)
                 .limit(pageSize);
 
